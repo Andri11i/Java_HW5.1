@@ -4,9 +4,9 @@ import java.util.stream.Collectors;
 public class Main {
 
 
-    public static int countOccurrence(List<String> list, String word) {
+    public static int countOccurrence(List<String> words, String word) {
         int count = 0;
-        for (String s : list) {
+        for (String s : words) {
             if (s.equals(word)) {
                 count++;
             }
@@ -14,41 +14,58 @@ public class Main {
         return count;
     }
 
-    public static List<Integer> toList(int[] array) {
-        List<Integer> list = new ArrayList<>();
-        for (int value : array) {
-            list.add(value);
+    public static List<Integer> toList(int[] numbers) {
+        List<Integer> numbersList = new ArrayList<>();
+        for (int value : numbers){
+            numbersList.add(value);
         }
-        return list;
+        return  numbersList;
     }
 
 
     public static List<Integer> findUnique(List<Integer> list) {
-        return new ArrayList<>(new HashSet<>(list));
+        List<Integer> uniques = new ArrayList<>();
+        for (Integer num : list) {
+            if (!uniques.contains(num)) {
+                uniques.add(num);
+            }
+        }
+        return uniques;
     }
 
-
-    public static void calcOccurrence(List<String> list) {
-        Map<String, Integer> occurrences = new HashMap<>();
-        for (String word : list) {
-            occurrences.put(word, occurrences.getOrDefault(word, 0) + 1);
+    public static void calcOccurrence(List<String> words) {
+        List<String> processedWords = new ArrayList<>();
+        for (String word : words) {
+            if (!processedWords.contains(word)) {
+                processedWords.add(word);
+                int count = 0;
+                for (String currentWord : words) {
+                    if (currentWord.equals(word)) {
+                        count++;
+                    }
+                }
+                System.out.println(word + ": " + count);
+            }
         }
-        occurrences.forEach((key, value) -> System.out.println(key + ": " + value));
     }
 
-
-    public static List<Map<String, Object>> findOccurrence(List<String> list) {
-        Map<String, Integer> occurrences = new HashMap<>();
-        for (String word : list) {
-            occurrences.put(word, occurrences.getOrDefault(word, 0) + 1);
-        }
-
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : occurrences.entrySet()) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("name", entry.getKey());
-            map.put("occurrence", entry.getValue());
-            result.add(map);
+    public static List<List<Object>> findOccurrence(List<String> words) {
+        List<String> processedWords = new ArrayList<>();
+        List<List<Object>> result = new ArrayList<>();
+        for (String word : words) {
+            if (!processedWords.contains(word)) {
+                processedWords.add(word);
+                int count = 0;
+                for (String currentWord : words) {
+                    if (currentWord.equals(word)) {
+                        count++;
+                    }
+                }
+                List<Object> wordCount = new ArrayList<>();
+                wordCount.add(word);
+                wordCount.add(count);
+                result.add(wordCount);
+            }
         }
         return result;
     }
@@ -72,7 +89,7 @@ public class Main {
 
 
         System.out.println("Find occurrences:");
-        List<Map<String, Object>> occurrences = findOccurrence(words);
+        List<List<Object>> occurrences = findOccurrence(words);
         System.out.println(occurrences);
     }
 }
